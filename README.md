@@ -2,54 +2,125 @@
 
 Proyecto de Programación Web PGY3121 Duoc UC 2021
 
-1. Crear Proyecto Django 
-    django-admin startproject miBlog
-    cd miBlog
+Para usar este repositorio
+    Descargar o clonar, luego ejecutar la instalación de los paquetes de requirements.txt con:
+    pip install -r requirements.txt
 
-2. Configuración mínima de settings del proyecto
-    En el archivo settings configuro a español
-    LANGUAGE_CODE = 'es'
+Para crear el archivo requirements.txt
+    Antes de enviar su propio proyecto, en la raíz del proyecto debe ejecutar:
+    pip freeze > requirements.txt
 
-    * AGREGAR ARCHIVO .gitignore en la raíz del proyecto.
-      Se puede usar de ejemplo: djangowaves.com/tips-tricks/gitignore-for-a-django-project
+Crear proyecto django
+    Por consola
+        django-admin startproject miBlog
+    Desde este punto en adelante siempre se debe trabajar dentro de la carpeta del proyecto
+                miBlog
+        │   manage.py      
+        │   .gitignore     
+        │
+        └───miBlog
+        │   │   settings.py
+        │   │   urls.py
+        │ (..y mas)
 
-3. Crear la app de django principal (core)
-    python manage.py startapp core
-    Agregar la app core al archivo settings en INSTALLED_APPS
+Agregar archivo .gitignore
+    En la raíz del proyecto, antes de subir al repositorio por primera vez.
+    Se puede usar de ejemplo: https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
 
-4. Templates
-    Dentro de la app core crear la carpeta templates y dentro de ella
-    crear una carpeta core.
-    Siempre en todas las app de django, 
-    se debe respetar esta estructura: nombreApp/templates/nombreApp 
-    - Creo el template home.html dentro de core/templates/core
-    - En el archivo views.py que está en la app core, 
-      agrego la función: 
-        def home(request):
-            return render(request,'core/home.html')
+1.- Configuración mínima de settings del proyecto
+    En el archivo settings del proyecto configuro a español
+        LANGUAGE_CODE = 'es'
 
-5. Agregar Urls
-    Agregar el archivo urls.py a la carpeta core con el código:
+    Primer migrate
+    Para crear las bases de datos básicas propias de django
+        python manage.py migrate
 
-    from django.urls import path
-    from .views import home
+    Levantar el servidor
+        python manage.py runserver
 
-    urlpatterns = [
-        path('', home, name="home"),
-    ]
+2.- Crear la app de django principal (core)
+        python manage.py startapp core
 
-    En el archivo urls.py general del proyecto agregar
-    path('', include('core.urls')),
-    al urlpatterns
-    Recordar importar include junto con path
+    Agregar la app core a settings en la lista:
+        INSTALLED_APPS = [
+            ...
+            'core',
+        ]
 
-6. Archivos Estáticos
-    Se debe crear una carpeta con la lógica similar a templates: nombreApp/static/nombreApp
-
-    Dentro de esta carpeta crear una estructura ordenada con una carpeta css, js, img. 
-    También se puede agregar otra lib para librerías externas.
-
-    En el html del template de django, primero se debe cargar los archivos statics de la app
-    {% load static %}
+3.- Templates
+    Dentro de la app core, crear la carpeta templates y dentro de la carpeta templates crear una carpata core
+        miBlog    
+        └───core
+        │   └───templates
+        │       └───core
     
-    Luego llamar al recurso usando {% static 'nombreApp/rut/recurso' %}
+    Siempre en todas las app de django, se debe respetar esta estructura nombreApp/templates/nombreApp
+
+    1) Creo el template
+        Por ejemplo home.html dentro de core/templates/core
+            └───core
+            │   │   views.py 
+            │   └───templates
+            │       └───core
+            │           │   home.html 
+    
+    2) Agrego función en views.py
+        Que esta en la app core, agrego la función:
+            def home(request):
+                return render(request, 'core/home.html')
+
+    3) Agrear Urls
+        Agregar el archivo urls.py a la carpeta core
+            └───core
+            │   │   urls.py
+            │   │   views.py 
+            │   └───templates
+            │       └───core
+            │           │   home.html 
+
+        Con el código:
+            from django.urls import path
+            from .views import home
+
+            urlpatterns = [
+                path('', home, name="home"),
+            ]
+        
+        Archivo urls.py general
+            Donde están los settings del proyecto, también está el archivo central de urls, se debe agregar:
+                path('', include('core.urls')),
+            
+            Al listado de urlpatterns Recuerden importar include, en la misma linea de path
+
+4.- Archivos Estáticos
+        Se debe crear una carpeta con la lógica similar a templates nombreApp/static/nombreApp. Dentro de esta carpeta crear una estructura ordenda con una carpeta css, otra js y otra img. También se puede agregar otra lib para librerías externas, etc.
+
+            └───core
+            │   │   urls.py
+            │   │   views.py 
+            │   │
+            │   └───templates
+            │   │   └───core
+            │   │       │   home.html 
+            │   │       
+            │   └───static
+            │       └───core
+            │           └───css
+            │           └───img
+            │           └───js
+
+        Cargar archivos static en el template
+            En el html del template de django, primero se debe indicar  
+                {% load static %}
+
+        Luego llamar al recurso usando
+            {% static 'nombreApp/rut/del/recurso' %}
+
+5.- Envío de variables
+    Se utiliza desde el views.py en el tercer parámetro del render, llamado contexto, que es de tipo diccionario
+        contexto = {
+                'atributo': 'valor'
+            }
+            return render(request, 'core/home.html', contexto)
+
+    Y para llamarlas en el template se utiliza {{ atributo }}
