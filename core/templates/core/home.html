@@ -3,4 +3,12 @@
 <h1>Hola mundo</h1>
 <p>Nombre: {{ nombre }}</p>
 <p>Edad: {{ edad }}</p>
+
+<p>Héroes: {{heroes.0}} </p>
+<ol>
+    {% for heroe in heroes %}
+        <li>{{heroe}}</li>
+    {% endfor %}
+</ol>
+
 <img src="{% static 'core/img/grogu.jpg' %}" alt="grogu-lego">

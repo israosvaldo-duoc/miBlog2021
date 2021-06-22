@@ -14,6 +14,7 @@ Crear proyecto django
     Por consola
         django-admin startproject miBlog
     Desde este punto en adelante siempre se debe trabajar dentro de la carpeta del proyecto
+
                 miBlog
         │   manage.py      
         │   .gitignore     
