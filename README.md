@@ -42,3 +42,14 @@ Proyecto de Programación Web PGY3121 Duoc UC 2021
     path('', include('core.urls')),
     al urlpatterns
     Recordar importar include junto con path
+
+6. Archivos Estáticos
+    Se debe crear una carpeta con la lógica similar a templates: nombreApp/static/nombreApp
+
+    Dentro de esta carpeta crear una estructura ordenada con una carpeta css, js, img. 
+    También se puede agregar otra lib para librerías externas.
+
+    En el html del template de django, primero se debe cargar los archivos statics de la app
+    {% load static %}
+    
+    Luego llamar al recurso usando {% static 'nombreApp/rut/recurso' %}
