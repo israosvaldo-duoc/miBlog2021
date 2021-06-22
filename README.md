@@ -10,3 +10,7 @@ Proyecto de Programación Web PGY3121 Duoc UC 2021
 
    En el archivo settings configuro a español
    LANGUAGE_CODE = 'es'
+
+3. Crear la app de django principal (core)
+     python manage.py startapp core
+   Agregar la app core al archivo settings en INSTALLED_APPS
